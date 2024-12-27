@@ -34,6 +34,7 @@ androidx-fragment = { module = "androidx.fragment:fragment-ktx", version.ref = "
 naverMapSdk = { module = "com.naver.maps:map-sdk", version.ref = "naverMapSdk" }  # 네이버 지도 SDK 의존성 정의
 
 
+
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
