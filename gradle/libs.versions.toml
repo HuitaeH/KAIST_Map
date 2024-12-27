@@ -8,9 +8,6 @@ espressoCore = "3.5.1"
 lifecycleRuntimeKtx = "2.6.1"
 activityCompose = "1.8.0"
 composeBom = "2024.04.01"
-navigation_compose = "2.5.3"
-naverMapSdk = "3.20.0"
-fragment = "1.5.7"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -27,9 +24,6 @@ androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-toolin
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
-androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigation_compose" }
-androidx-fragment = { module = "androidx.fragment:fragment-ktx", version.ref = "fragment"}
-naverMapSdk = { module = "com.naver.maps:map-sdk", version.ref = "naverMapSdk" }  # 네이버 지도 SDK 의존성 정의
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
