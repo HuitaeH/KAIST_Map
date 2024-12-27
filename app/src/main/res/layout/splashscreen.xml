@@ -10,13 +10,17 @@
         android:layout_width="wrap_content"
         android:layout_height="427dp"
         android:scaleX="0.3"
-        android:scaleY="0.3" />
+        android:scaleY="0.3"
+        android:src="@drawable/nubjuk"
+        android:layout_centerInParent="true"
+        />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="163dp"
         android:layout_height="111dp"
         android:layout_gravity="center_horizontal"
-        android:gravity="center"
+        android:gravity="start"
+
         android:text="오늘\n넙죽이는\n뭐먹지" />
 </LinearLayout>
