@@ -33,5 +33,3 @@ class SplashScreen : Activity() {
         }, 1500) // 1500 is the delayed time in milliseconds.
     }
 }
-
-
