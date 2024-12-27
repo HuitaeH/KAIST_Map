@@ -50,7 +50,11 @@
             android:theme="@style/Theme.KAISTMap">
         </activity>
 
-
+        <activity
+            android:name=".FilterActivity"
+            android:label="Filter Page"
+            android:theme="@style/Theme.KAISTMap">
+        </activity>
 
     </application>
 
