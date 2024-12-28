@@ -14,6 +14,8 @@ naverMapSdk = "3.20.0"
 fragment = "1.5.7"
 recyclerview = "1.2.1"
 cardview = "1.0.0"
+androidToolsBuild = "7.5.1"
+jetbrainsKotlin = "1.8.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -36,6 +38,9 @@ androidx-fragment = { module = "androidx.fragment:fragment-ktx", version.ref = "
 androidx-recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "recyclerview"}
 androidx-cardview = { module = "androidx.cardview:cardview", version.ref = "cardview" }
 naverMapSdk = { module = "com.naver.maps:map-sdk", version.ref = "naverMapSdk" }  # 네이버 지도 SDK 의존성 정의
+#androidToolsBuild = {module = "com.android.tools.build:gradle", version.ref = "androidToolsBuild"}
+#jetbrainsKotlin = {module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "jetbrainsKotlin"}
+
 
 
 [plugins]

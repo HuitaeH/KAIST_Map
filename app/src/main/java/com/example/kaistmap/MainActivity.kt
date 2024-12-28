@@ -4,6 +4,7 @@ import android.content.Intent
 import android.app.Activity
 import android.os.Bundle
 import android.widget.Button
+import androidx.appcompat.app.AppCompatActivity
 import com.naver.maps.map.MapView
 import com.naver.maps.map.CameraPosition
 import com.naver.maps.map.NaverMap
@@ -13,7 +14,7 @@ import com.naver.maps.map.overlay.Marker
 import com.google.gson.Gson
 import java.io.InputStreamReader
 
-class MainActivity : Activity(), OnMapReadyCallback {
+class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mapView: MapView
     private lateinit var naverMap: NaverMap
@@ -35,6 +36,14 @@ class MainActivity : Activity(), OnMapReadyCallback {
             val intent = Intent(this, FilterActivity::class.java)
             startActivity(intent)
             true
+        }
+
+        // Roulette creating code
+        val buttonShowRoulette: Button = findViewById(R.id.buttonShowRoulette)
+
+        buttonShowRoulette.setOnClickListener {
+            val rouletteDialog = SpinnerWheelFragment()
+            rouletteDialog.show(supportFragmentManager, "RouletteDialog")
         }
     }
 
