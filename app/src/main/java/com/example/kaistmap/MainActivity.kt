@@ -1,7 +1,6 @@
 package com.example.kaistmap
 
 import android.content.Intent
-import android.app.Activity
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +12,7 @@ import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.overlay.Marker
 import com.google.gson.Gson
 import java.io.InputStreamReader
+import com.naver.maps.map.overlay.OverlayImage
 
 class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -22,6 +22,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
+
+        supportActionBar?.hide()
 
         // MapView 객체 초기화
         mapView = findViewById(R.id.map_view)
@@ -62,16 +64,33 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         for (markerData in markerDataList) {
             val marker = Marker()
             marker.position = LatLng(markerData.lat, markerData.lng)
+            if (markerData.menu == "한식") {
+                marker.icon = OverlayImage.fromResource(R.drawable.korea)
+            }
+            if (markerData.menu == "일식") {
+                marker.icon = OverlayImage.fromResource(R.drawable.japan)
+            }
+            if (markerData.menu == "중식") {
+                marker.icon = OverlayImage.fromResource(R.drawable.china)
+            }
+            if (markerData.menu == "양식") {
+                marker.icon = OverlayImage.fromResource(R.drawable.west)
+            }
+            if (markerData.menu == "기타") {
+                marker.icon = OverlayImage.fromResource(R.drawable.others)
+            }
+
+            marker.width = 100
+            marker.height = 120
+
             marker.map = naverMap
             marker.captionText = markerData.name
             marker.captionTextSize = 16f
 
             marker.setOnClickListener {
                 // 마커 클릭 시 DetailActivity로 이동
-                val intent = Intent(this, DetailActivity::class.java)
-                intent.putExtra("marker_lat", markerData.lat)
-                intent.putExtra("marker_lng", markerData.lng)
-                startActivity(intent)
+                val dialogFragment = MyDialogFragment.newInstance(markerData)
+                dialogFragment.show(supportFragmentManager, "MyDialogFragment")
                 true
             }
         }
