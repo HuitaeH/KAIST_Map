@@ -16,6 +16,8 @@ import android.os.Looper
 import android.text.InputType
 import android.text.TextWatcher
 import android.text.Editable
+import android.widget.TextView // Import TextView
+import android.graphics.Color // Import Color for setting text color
 
 
 class SpinnerWheelFragment : DialogFragment() {
@@ -41,8 +43,7 @@ class SpinnerWheelFragment : DialogFragment() {
         startButton.isEnabled = false
 
 
-
-        // Confirm Button Logic
+// Inside the confirmButton's click listener, after setting sectors
         confirmButton.setOnClickListener {
             val sectors = sectorInput.text.toString().toIntOrNull()
             if (sectors != null && sectors in 2..6) {
@@ -51,17 +52,39 @@ class SpinnerWheelFragment : DialogFragment() {
                 // Clear existing dynamic EditText fields
                 sectorsLayout.removeAllViews()
 
-                // Add dynamic EditText fields based on the number of sectors
-                sectorLabels.clear() // Clear previous labels
+                // Clear the sector labels list
+                sectorLabels.clear()
+
+                // Add numbered labels and EditText fields
                 for (i in 0 until sectors) {
+                    // Create a horizontal LinearLayout for each row
+                    val rowLayout = LinearLayout(context).apply {
+                        orientation = LinearLayout.HORIZONTAL
+                        layoutParams = LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT
+                        )
+                    }
+
+                    // Create a TextView for the number
+                    val numberLabel = TextView(context).apply {
+                        text = "${i + 1}. "
+                        textSize = 16f // Adjust text size if needed
+                        setTextColor(Color.BLACK) // Set text color
+                        setPadding(8, 8, 8, 8) // Optional padding
+                    }
+
+                    // Create an EditText for the sector label input
                     val editText = EditText(context).apply {
                         hint = "Label for sector ${i + 1}"
                         inputType = InputType.TYPE_CLASS_TEXT
-                        setPadding(8, 8, 8, 8)
+                        setPadding(8, 8, 8, 8) // Optional padding
+                        layoutParams = LinearLayout.LayoutParams(
+                            0,
+                            LinearLayout.LayoutParams.WRAP_CONTENT,
+                            1f // Weight to fill the remaining space in the row
+                        )
                     }
-
-                    // Add EditText to the layout
-                    sectorsLayout.addView(editText)
 
                     // Add a TextWatcher to update sectorLabels when text is changed
                     editText.addTextChangedListener(object : TextWatcher {
@@ -77,14 +100,20 @@ class SpinnerWheelFragment : DialogFragment() {
                             }
                         }
                     })
+
+                    // Add the number label and EditText to the row
+                    rowLayout.addView(numberLabel)
+                    rowLayout.addView(editText)
+
+                    // Add the row to the sectorsLayout
+                    sectorsLayout.addView(rowLayout)
                 }
-
-
                 startButton.isEnabled = true // Enable the Start button
             } else {
                 Toast.makeText(context, "2에서 6사이의 숫자를 넣어주세요", Toast.LENGTH_SHORT).show()
             }
         }
+
 
         // Start Button Logic
         startButton.setOnClickListener {
@@ -102,6 +131,7 @@ class SpinnerWheelFragment : DialogFragment() {
 
         return view
     }
+
 
     private fun spinWheel(view: View, sectors: Int) {
         val sector = (0 until sectors).random()
