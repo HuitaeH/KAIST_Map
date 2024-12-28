@@ -1,30 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    android:background="@drawable/round_button"
+    android:gravity="center"
+    android:layout_gravity="center">
 
-    <Button
-        android:id="@+id/back_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="back" />
+    <!-- X 버튼: 동그라미 안에 X 모양 -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/TitleTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:layout_marginTop="6dp" />
+        <ImageButton
+            android:id="@+id/back_button"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="end|top"
+            android:src="@drawable/xbutton"
+            android:contentDescription="Back"
+            android:background="@android:color/transparent"
+            android:scaleType="centerInside"/>
+    </FrameLayout>
 
     <TextView
-        android:id="@+id/latTextView"
+        android:id="@+id/AddressTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:layout_marginTop="6dp" />
+
+    <!-- ViewPager2 (이미지 스와이프 기능) -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_marginTop="16dp">
+
+        <!-- ViewPager2 (이미지 슬라이드) -->
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:scaleType="fitCenter"/>
+
+        <!-- 이전 버튼 (사진 왼쪽에 위치) -->
+        <ImageButton
+            android:id="@+id/prev_button"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_gravity="start|center_vertical"
+            android:src="@drawable/ic_prev"
+            android:background="@android:color/transparent"
+            android:contentDescription="Previous Image"
+            android:alpha="0.7"
+            android:scaleType="centerInside"/>
+
+        <!-- 다음 버튼 (사진 오른쪽에 위치) -->
+        <ImageButton
+            android:id="@+id/next_button"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_gravity="end|center_vertical"
+            android:src="@drawable/ic_next"
+            android:background="@android:color/transparent"
+            android:contentDescription="Next Image"
+            android:alpha="0.7"
+            android:scaleType="centerInside"/>
+    </FrameLayout>
+
+    <!-- 위도 TextView -->
+    <TextView
+        android:id="@+id/TextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="위도"
-        android:textSize="18sp"
-        android:paddingBottom="8dp" />
+        android:textSize="15sp"
+        android:paddingBottom="8dp"
+        android:layout_marginTop="16dp" />
 
-    <TextView
-        android:id="@+id/lngTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="경도"
-        android:textSize="16sp"
-        android:paddingBottom="8dp" />
+    <!-- 경도 TextView -->
 
 </LinearLayout>
