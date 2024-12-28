@@ -39,6 +39,8 @@ androidx-recyclerview = { module = "androidx.recyclerview:recyclerview", version
 androidx-cardview = { module = "androidx.cardview:cardview", version.ref = "cardview" }
 naverMapSdk = { module = "com.naver.maps:map-sdk", version.ref = "naverMapSdk" }  # 네이버 지도 SDK 의존성 정의
 veiwpager2 = { module = "androidx.viewpager2:viewpager2", version.ref = "viewpager2"}
+androidx-constriantlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlaydout" }
+
 
 
 [plugins]
