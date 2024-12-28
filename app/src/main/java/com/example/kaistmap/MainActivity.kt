@@ -39,6 +39,14 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
             startActivity(intent)
             true
         }
+
+        // Roulette creating code
+        val buttonShowRoulette: Button = findViewById(R.id.buttonShowRoulette)
+
+        buttonShowRoulette.setOnClickListener {
+            val rouletteDialog = SpinnerWheelFragment()
+            rouletteDialog.show(supportFragmentManager, "RouletteDialog")
+        }
     }
 
     // 지도 준비가 완료되었을 때 호출되는 메소드

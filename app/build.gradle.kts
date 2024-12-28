@@ -7,7 +7,6 @@ plugins {
 android {
     namespace = "com.example.kaistmap"
     compileSdk = 34
-
     defaultConfig {
         applicationId = "com.example.kaistmap"
         minSdk = 31
@@ -52,6 +51,8 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.fragment)
+//    implementation(libs.androidToolsBuild)
+//    implementation(libs.jetbrainsKotlin)
     implementation(libs.naverMapSdk)
     implementation(libs.androidx.recyclerview)
     implementation(libs.androidx.cardview)
