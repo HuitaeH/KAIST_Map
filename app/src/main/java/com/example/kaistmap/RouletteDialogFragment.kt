@@ -18,6 +18,7 @@ class SpinnerWheelFragment : DialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.dialog_roulette, container, false)
+        dialog?.window?.setBackgroundDrawable(requireContext().getDrawable(R.drawable.round_button))
 
         // X 버튼 클릭 시 팝업 닫기
         val backButton: ImageButton = view.findViewById(R.id.back_button)
