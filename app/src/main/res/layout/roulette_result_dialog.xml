@@ -1,0 +1,31 @@
+<!-- dialog_result.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:gravity="center">
+
+    <ImageButton
+        android:id="@+id/back_button"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_gravity="end|top"
+        android:src="@drawable/xbutton"
+        android:contentDescription="Back"
+        android:background="@android:color/transparent"
+        android:scaleType="centerInside"
+        android:onClick="dismissDialog"
+        />
+
+    <TextView
+        android:id="@+id/resultTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Selected Sector: "
+        android:textSize="18sp"
+        android:textColor="@android:color/black" />
+
+
+
+</LinearLayout>
