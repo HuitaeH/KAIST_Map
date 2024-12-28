@@ -15,6 +15,7 @@ fragment = "1.5.7"
 recyclerview = "1.2.1"
 cardview = "1.0.0"
 viewpager2 = "1.0.0"
+constraintlaydout = "2.1.4"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -38,6 +39,7 @@ androidx-recyclerview = { module = "androidx.recyclerview:recyclerview", version
 androidx-cardview = { module = "androidx.cardview:cardview", version.ref = "cardview" }
 naverMapSdk = { module = "com.naver.maps:map-sdk", version.ref = "naverMapSdk" }  # 네이버 지도 SDK 의존성 정의
 veiwpager2 = { module = "androidx.viewpager2:viewpager2", version.ref = "viewpager2"}
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

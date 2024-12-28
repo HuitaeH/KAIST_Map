@@ -2,34 +2,72 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
+    android:layout_margin="12dp"
     android:elevation="4dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:padding="16dp">
 
-        <TextView
-            android:id="@+id/marker_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="마커 이름"
-            android:textSize="18sp"/>
+        <!-- 이미지 뷰: 좌측에 배치, 상하 마진 동일하게 처리 -->
+        <LinearLayout
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center_vertical"> <!-- 상하 마진을 동일하게 맞추기 위해 세로 중앙 정렬 -->
 
-        <TextView
-            android:id="@+id/marker_lat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="위도: "
-            android:textSize="14sp"/>
+            <ImageView
+                android:id="@+id/marker_image"
+                android:layout_width="70dp"
+                android:layout_height="70dp" />
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/marker_lng"
-            android:layout_width="wrap_content"
+        <!-- 텍스트와 버튼을 포함하는 LinearLayout -->
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="경도: "
-            android:textSize="14sp"/>
+            android:orientation="vertical"
+            android:layout_weight="1">
+
+            <!-- 마커 이름 -->
+            <TextView
+                android:id="@+id/marker_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="마커 이름"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <!-- 위도 -->
+            <TextView
+                android:id="@+id/marker_menu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="종류"
+                android:textSize="14sp" />
+
+            <!-- 경도 -->
+            <TextView
+                android:id="@+id/marker_addr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="주소"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <!-- 우측에 배치될 ImageButton -->
+        <ImageButton
+            android:id="@+id/info_button"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_info"
+            android:contentDescription="Info"
+            android:background="@android:color/transparent"
+            android:layout_gravity="center_vertical"
+            android:padding="8dp"
+            android:scaleType="centerInside" />
     </LinearLayout>
+
 </androidx.cardview.widget.CardView>
