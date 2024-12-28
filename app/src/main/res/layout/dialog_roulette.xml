@@ -3,23 +3,79 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center">
+    android:gravity="center"
+    android:padding="16dp"
+    >
 
-    <EditText
-        android:id="@+id/sectorInput"
+    <!--closing x button-->
+    <ImageButton
+        android:id="@+id/back_button"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_gravity="end|top"
+        android:src="@drawable/xbutton"
+        android:contentDescription="Back"
+        android:background="@android:color/transparent"
+        android:scaleType="centerInside"/>
+
+    <!--sector no. input + button-->
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="Enter sectors (2-8)"
-        android:inputType="number" />
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:paddingBottom="16dp">
 
-    <Button
-        android:id="@+id/startButton"
+        <!-- Sector Input -->
+        <EditText
+            android:id="@+id/sectorInput"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="음식 개수(2-8개)"
+            android:inputType="number"/>
+
+        <!-- Confirm Button -->
+        <Button
+            android:id="@+id/confirmButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="입력" />
+    </LinearLayout>
+
+    <!--target arrow-->
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Spin" />
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:paddingBottom="5dp">
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/target_arrow"
+            />
+    </LinearLayout>
 
+    <!--Spinning Wheel-->
     <com.example.kaistmap.SpinnerWheelView
         android:id="@+id/spinnerWheel"
         android:layout_width="300dp"
-        android:layout_height="300dp" />
+        android:layout_height="300dp"
+        />
+
+    <!--Spin button-->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:padding="16dp">
+        <Button
+            android:id="@+id/startButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="돌리기"
+            />
+    </LinearLayout>
 </LinearLayout>
