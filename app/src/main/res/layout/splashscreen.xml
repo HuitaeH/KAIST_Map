@@ -7,8 +7,8 @@
 
     <ImageView
         android:id="@+id/nubjukLogo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
         android:layout_gravity="center"
         android:scaleX="0.5"
         android:scaleY="0.5"
@@ -22,9 +22,8 @@
         android:layout_gravity="center_horizontal"
         android:gravity="start|center"
         android:text="오늘\n넙죽이는\n뭐먹지"
-        android:translationY="450dp"
+        android:textColor="@color/black"
         android:textSize="25sp"
         android:textStyle="bold"
-        android:textColor="@color/black"
-        />
+        android:translationY="450dp" />
 </FrameLayout>

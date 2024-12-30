@@ -10,12 +10,13 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="맛집 리스트"
-        android:textSize="15sp"
-        android:textColor="#000000"
+        android:layout_marginLeft="10dp"
         android:layout_marginTop="20dp"
-        android:layout_marginLeft="15dp"
-        android:gravity="center" />
+        android:gravity="center"
+        android:text="  맛집 리스트"
+        android:textColor="#000000"
+        android:textSize="18sp" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -98,12 +99,12 @@
         android:layout_height="0dp"
         android:layout_weight="1">
 
+        <!-- 해당되는 식당이 없습니다. 텍스트 -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="542dp" />
 
-        <!-- 해당되는 식당이 없습니다. 텍스트 -->
         <TextView
             android:id="@+id/noDataText"
             android:layout_width="wrap_content"
@@ -115,15 +116,6 @@
             android:visibility="gone"
             android:layout_gravity="center" />
     </FrameLayout>
-
-    <!--
-    <View
-        android:id="@+id/shadow_view"
-        android:layout_width="match_parent"
-        android:layout_height="8dp"
-        android:layout_above="@id/button_container"
-        android:background="@drawable/shadow_effect" />
-    -->
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"

@@ -55,6 +55,12 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
             rouletteDialog.show(supportFragmentManager, "RouletteDialog")
         }
 
+        // "초기화" 버튼 클릭 이벤트 - 지도 리셋
+        val resetButton = findViewById<ImageButton>(R.id.reset_button)
+        resetButton.setOnClickListener {
+            resetMapToInitialPosition()
+        }
+
         // 검색창 텍스트 변화에 따른 필터링
         searchBox.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
@@ -141,6 +147,11 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         }
         // 필터링된 마커를 다시 지도에 표시
         addMarkers(filteredMarkers)
+    }
+
+    private fun resetMapToInitialPosition() {
+        val cameraPosition = CameraPosition(LatLng(36.369809, 127.361298), 14.3) // 초기 위치 설정 (예: 서울)
+        naverMap.cameraPosition = cameraPosition
     }
 
     // 생명주기 메소드들 추가
