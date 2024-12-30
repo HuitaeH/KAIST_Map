@@ -16,10 +16,14 @@ import android.os.Looper
 import android.text.InputType
 import android.text.TextWatcher
 import android.text.Editable
+import android.widget.TextView // Import TextView
+import android.graphics.Color // Import Color for setting text color
 
 
 class SpinnerWheelFragment : DialogFragment() {
     private val sectorLabels = mutableListOf<String>()
+    private var currentRotation = 0f // Track the cumulative rotation
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,12 +46,12 @@ class SpinnerWheelFragment : DialogFragment() {
         startButton.isEnabled = false
 
 
-
-        // Confirm Button Logic
+        // Inside the confirmButton's click listener, after setting sectors
         confirmButton.setOnClickListener {
             val sectors = sectorInput.text.toString().toIntOrNull()
             if (sectors != null && sectors in 2..6) {
-                spinnerWheel.setSectors(sectors) // Set the number of sectors on the spinner wheel
+                // Set the number of sectors and clear previous labels
+                spinnerWheel.setSectors(sectors)
 
                 // Clear existing dynamic EditText fields
                 sectorsLayout.removeAllViews()
@@ -55,14 +59,34 @@ class SpinnerWheelFragment : DialogFragment() {
                 // Add dynamic EditText fields based on the number of sectors
                 sectorLabels.clear() // Clear previous labels
                 for (i in 0 until sectors) {
+                    // Create a LinearLayout to contain the TextView and EditText together
+                    val sectorLayout = LinearLayout(context).apply {
+                        orientation = LinearLayout.HORIZONTAL // Set orientation to horizontal
+                        setPadding(8, 8, 8, 8) // Add padding around the layout
+                    }
+
+                    // Create a TextView for the sector number (e.g., "Sector 1")
+                    val sectorTextView = TextView(context).apply {
+                        text = "${i + 1}. " // Set the text to indicate the sector number
+                        textSize = 16f // Adjust text size
+                        setPadding(8, 8, 8, 8) // Padding for spacing
+                        setTextColor(Color.BLACK) // Correct way to set text color
+                    }
+
                     val editText = EditText(context).apply {
                         hint = "Label for sector ${i + 1}"
                         inputType = InputType.TYPE_CLASS_TEXT
                         setPadding(8, 8, 8, 8)
                     }
 
-                    // Add EditText to the layout
-                    sectorsLayout.addView(editText)
+
+
+                    // Add the TextView and EditText to the LinearLayout
+                    sectorLayout.addView(sectorTextView)
+                    sectorLayout.addView(editText)
+
+                    // Add the LinearLayout (which contains the TextView and EditText) to sectorsLayout
+                    sectorsLayout.addView(sectorLayout)
 
                     // Add a TextWatcher to update sectorLabels when text is changed
                     editText.addTextChangedListener(object : TextWatcher {
@@ -79,13 +103,12 @@ class SpinnerWheelFragment : DialogFragment() {
                         }
                     })
                 }
-
-
                 startButton.isEnabled = true // Enable the Start button
             } else {
                 Toast.makeText(context, "2에서 6사이의 숫자를 넣어주세요", Toast.LENGTH_SHORT).show()
             }
         }
+
 
         // Start Button Logic
         startButton.setOnClickListener {
@@ -97,6 +120,8 @@ class SpinnerWheelFragment : DialogFragment() {
             } else {
                 // Proceed with spinning the wheel if the input is valid
                 spinnerWheel.setSectors(sectors)
+                // Pass the labels to the spinner wheel
+                spinnerWheel.setSectorLabels(sectorLabels)
                 spinWheel(spinnerWheel, sectors)
             }
         }
@@ -104,23 +129,46 @@ class SpinnerWheelFragment : DialogFragment() {
         return view
     }
 
+
     private fun spinWheel(view: View, sectors: Int) {
-        val sector = (0 until sectors).random()
+        // Store the current rotation before starting the animation
+        currentRotation = view.rotation
 
-        // Add a small random offset to prevent the wheel from landing exactly on the sector borders
-        val randomOffset = (0..360).random() // Random angle between 0 and 360 degrees
-        val finalRotation = 360f * 5 + (360f / sectors) * sector + randomOffset
+        // Randomly pick a sector
+        val whichSector = (0 until sectors).random()
 
-        val animator = ValueAnimator.ofFloat(0f, finalRotation)
+        // Add a random offset within the sector to avoid landing exactly on borders
+        val randomOffset = (0 until (360 / sectors)).random()
+        val finalRotation = currentRotation + 360f * 5 + (360f / sectors) * whichSector + randomOffset
+
+        // Animate the rotation
+        val animator = ValueAnimator.ofFloat(currentRotation, finalRotation)
         animator.duration = 3000 // 3 seconds
         animator.addUpdateListener {
             view.rotation = it.animatedValue as Float
         }
-        animator.start()
+        // Update cumulative rotation
+        currentRotation = finalRotation % 360f
 
-        // Show the result after the spin ends
-        Handler(Looper.getMainLooper()).postDelayed({
-            Toast.makeText(context, "오늘 밥은 ${sector + 1}!", Toast.LENGTH_SHORT).show()
-        }, 3000)
+        //check if the list is filled - else just print out the message
+        if (sectorLabels.size<sectors) {
+            Toast.makeText(requireContext(), "메뉴 리스트를 채워주세요", Toast.LENGTH_SHORT).show()
+        } else {
+            animator.start()
+
+            // Post a delayed result calculation after the animation ends
+            Handler(Looper.getMainLooper()).postDelayed({
+
+                val currentSector = (sectors-1) - (currentRotation / (360f / sectors)).toInt()
+
+                // Validate sectorLabels and display the result
+                val chosen = sectorLabels[currentSector]
+                Toast.makeText(requireContext(), "오늘 밥은 $chosen!", Toast.LENGTH_SHORT).show()
+            }, 3000) // Delay matches the animation duration
+        }
+
+
+
     }
+
 }
