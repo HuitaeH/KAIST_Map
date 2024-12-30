@@ -20,19 +20,20 @@
             android:layout_alignParentBottom="true"
             app:cardCornerRadius="16dp"
             app:cardElevation="8dp">
+
             <EditText
                 android:id="@+id/search_box"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="16dp"
                 android:background="@drawable/round_button"
                 android:drawableEnd="@drawable/ic_search"
                 android:drawablePadding="8dp"
                 android:hint="#한식 키워드로 검색해보세요"
+                android:textSize="16sp"
                 android:paddingStart="16dp"
-                android:paddingEnd="16dp" />
+                android:paddingEnd="16dp"
+                android:gravity="start|center_vertical"
+            />
         </androidx.cardview.widget.CardView>
     </com.naver.maps.map.MapView>
 
@@ -69,7 +70,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginEnd="70dp">
+                android:layout_weight="1">
 
                 <ImageButton
                     android:id="@+id/image_button1"
@@ -112,8 +113,9 @@
                 android:gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="70dp"
-                android:layout_marginEnd="16dp">
+                android:layout_marginEnd="16dp"
+                android:layout_weight="1"
+                >
 
                 <ImageButton
                     android:id="@+id/golistbutton"
