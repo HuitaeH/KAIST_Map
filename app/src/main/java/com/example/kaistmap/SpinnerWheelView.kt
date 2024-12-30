@@ -20,7 +20,14 @@ class SpinnerWheelView @JvmOverloads constructor(
     }
 
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
+    private val textPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = Color.BLACK
+        textSize = 40f // Adjust text size
+        textAlign = Paint.Align.CENTER
+    }
+
     private var numSectors = 2 // Default number of sectors
+    private val sectorLabels = mutableListOf<String>() // Labels for each sector
     private val colors = listOf(
         Color.parseColor("#FFB3BA"), // Pastel Pink
         Color.parseColor("#FFDFBA"), // Pastel Peach
@@ -35,16 +42,28 @@ class SpinnerWheelView @JvmOverloads constructor(
         invalidate() // Redraw the view
     }
 
+    fun setSectorLabels(labels: List<String>) {
+        sectorLabels.clear()
+        sectorLabels.addAll(labels)
+        invalidate() // Redraw the view with the new labels
+    }
+
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
         val radius = width / 2f
         val centerX = width / 2f
         val centerY = height / 2f
+        // Rotate the canvas by -90 degrees (anticlockwise) around the center
+        canvas.save()
+        canvas.rotate(-90f, centerX, centerY)
 
+        val textRadius = radius * 0.8f // Position text closer to the center
         val anglePerSector = 360f / numSectors
+
         for (i in 0 until numSectors) {
             val startAngle = i * anglePerSector // Store the start angle
+            val sectorMidAngle = startAngle + anglePerSector / 2
 
             // Draw sector
             paint.color = colors[i % colors.size]
@@ -62,6 +81,11 @@ class SpinnerWheelView @JvmOverloads constructor(
 
             canvas.drawLine(centerX, centerY, startX, startY, outlinePaint) // Line to start angle
             canvas.drawLine(centerX, centerY, endX, endY, outlinePaint)   // Line to end angle
+
+            // Draw label if available
+            if (sectorLabels.size > i) {
+                drawLabel(canvas, sectorLabels[i], startAngle, anglePerSector, radius, centerX, centerY)
+            }
         }
 
         //circle at the center of the wheel
@@ -72,10 +96,34 @@ class SpinnerWheelView @JvmOverloads constructor(
         canvas.drawCircle(centerX, centerY, radius, outlinePaint)
 
 
-        // Draw a small inverted triangle (pointer) at the top
-        val pointerHeight = 40f // Height of the pointer (increased for visibility)
-        val pointerWidth = 60f // Width of the pointer (increased for visibility)
-        val path = Path()
+    }
 
+
+    private fun drawLabel(
+        canvas: Canvas, label: String, startAngle: Float, anglePerSector: Float,
+        radius: Float, centerX: Float, centerY: Float
+    ) {
+        val midAngle = startAngle + anglePerSector / 2
+        val labelRadius = radius * 0.7f // Adjust the position of the label closer to the center
+
+        // Calculate the position of the label based on the angle
+        val labelX = centerX + labelRadius * Math.cos(Math.toRadians(midAngle.toDouble())).toFloat()
+        val labelY = centerY + labelRadius * Math.sin(Math.toRadians(midAngle.toDouble())).toFloat()
+
+        // Rotate the text so it faces the center of the wheel
+        val rotateAngle = midAngle + 90f
+        canvas.save()
+        canvas.rotate(rotateAngle, labelX, labelY)
+
+        // Draw the label text
+        val textPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+            color = Color.BLACK
+            textSize = 40f
+            textAlign = Paint.Align.CENTER
+        }
+
+        // Draw the text at the calculated position
+        canvas.drawText(label, labelX, labelY, textPaint)
+        canvas.restore()
     }
 }
