@@ -3,6 +3,7 @@ package com.example.kaistmap
 import android.os.Bundle
 import android.widget.Button
 import android.widget.CheckBox
+import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -57,10 +58,18 @@ class FilterActivity : AppCompatActivity() {
         filterMarkers()
 
         // 뒤로가기 버튼
-        val backButton: Button = findViewById(R.id.back_button)
+        val backButton: ImageButton = findViewById(R.id.back_button)
         backButton.setOnClickListener {
             finish()
         }
+        // Roulette creating code
+        val buttonShowRoulette: ImageButton = findViewById(R.id.buttonShowRoulette)
+
+        buttonShowRoulette.setOnClickListener {
+            val rouletteDialog = SpinnerWheelFragment()
+            rouletteDialog.show(supportFragmentManager, "RouletteDialog")
+        }
+
     }
 
     // assets 폴더에서 JSON 파일을 로드하고 파싱하는 함수

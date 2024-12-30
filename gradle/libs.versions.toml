@@ -42,7 +42,6 @@ veiwpager2 = { module = "androidx.viewpager2:viewpager2", version.ref = "viewpag
 androidx-constriantlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlaydout" }
 
 
-
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

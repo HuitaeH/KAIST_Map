@@ -1,20 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:orientation="vertical">
 
     <!-- 뒤로가기 버튼 -->
-    <Button
-        android:id="@+id/back_button"
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Back"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
-
+        android:text="맛집 리스트"
+        android:textSize="15sp"
+        android:textColor="#000000"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="15dp"
+        android:gravity="center" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="우리가 보장하는"
+        android:textSize="30sp"
+        android:textColor="#000000"
+        android:layout_marginTop="4dp"
+        android:layout_marginLeft="15dp"
+        android:gravity="center"
+        android:textStyle="bold"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="카이스트 맛집"
+        android:textSize="30sp"
+        android:textColor="#000000"
+        android:layout_marginLeft="15dp"
+        android:gravity="center"
+        android:textStyle="bold"/>
     <!-- 버튼과 체크박스가 가로로 나란히 배치 -->
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -23,10 +41,7 @@
         android:gravity="start|center_vertical"
         android:orientation="horizontal"
         android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/back_button">
+        android:paddingBottom="8dp">
 
         <!-- 체크박스들 가로로 배치 -->
         <CheckBox
@@ -75,31 +90,119 @@
             android:text="기타" />
     </LinearLayout>
 
-    <!-- RecyclerView (가장 아래에 위치) -->
-
-    <!-- 해당되는 식당이 없습니다. 텍스트 -->
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <!-- RecyclerView -->
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        app:layout_constraintVertical_bias="1.0"
-        tools:layout_editor_absoluteX="-161dp" />
+        android:layout_weight="1">
 
-    <TextView
-        android:id="@+id/noDataText"
-        android:layout_width="wrap_content"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <!-- 해당되는 식당이 없습니다. 텍스트 -->
+        <TextView
+            android:id="@+id/noDataText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="해당되는 식당이 없습니다."
+            android:textSize="18sp"
+            android:textColor="@android:color/darker_gray"
+            android:gravity="center"
+            android:visibility="gone"
+            android:layout_gravity="center" />
+    </FrameLayout>
+
+    <View
+        android:id="@+id/shadow_view"
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:layout_above="@id/button_container"
+        android:background="@drawable/shadow_effect" />
+
+
+    <LinearLayout
+        android:id="@+id/button_container"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="300dp"
-        android:text="해당되는 식당이 없습니다."
-        android:textSize="18sp"
-        android:textColor="@android:color/darker_gray"
+        android:layout_alignParentBottom="true"
         android:gravity="center"
-        android:visibility="gone"
-        app:layout_constraintTop_toTopOf="@id/recyclerView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:orientation="horizontal"
+        android:background="@drawable/round_button_top"
+        android:padding="0dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="70dp">
+
+            <ImageButton
+                android:id="@+id/back_button"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:contentDescription="지도보기"
+                android:src="@drawable/ic_left_icon"
+                android:scaleType="centerInside"
+                android:alpha="0.5"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="지도보기"
+                android:textSize="12sp"
+                android:textColor="#000000"
+                android:layout_marginTop="4dp"
+                android:gravity="center" />
+        </LinearLayout>
+
+
+        <RelativeLayout
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_margin="8dp"
+            android:background="@drawable/round_button_blue">
+
+            <ImageButton
+                android:id="@+id/buttonShowRoulette"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/ic_roulette"
+                android:background="@null"
+                android:scaleType="centerInside"/>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="70dp"
+            android:layout_marginEnd="16dp">
+
+            <ImageButton
+                android:id="@+id/golistbutton"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:contentDescription="찾아보기"
+                android:src="@drawable/ic_right_icon"
+                android:scaleType="centerInside" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="찾아보기"
+                android:textSize="12sp"
+                android:textColor="#000000"
+                android:layout_marginTop="4dp"
+                android:gravity="center" />
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>
