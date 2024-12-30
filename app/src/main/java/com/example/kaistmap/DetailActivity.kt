@@ -88,7 +88,7 @@ class MyDialogFragment : DialogFragment() {
                 dialPhoneNumber(phone)
             }
         } else {
-            phoneNumberText.text = "No phone number available"
+            phoneNumberText.text = "전화 번호가 등록되지 않았습니다"
             phoneNumberText.setTextColor(resources.getColor(android.R.color.darker_gray, null))
         }
 
