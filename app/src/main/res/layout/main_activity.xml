@@ -73,7 +73,7 @@
                 android:layout_weight="1">
 
                 <ImageButton
-                    android:id="@+id/image_button1"
+                    android:id="@+id/reset_button"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:background="?android:attr/selectableItemBackground"
