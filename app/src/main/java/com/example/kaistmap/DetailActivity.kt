@@ -11,6 +11,10 @@ import androidx.appcompat.app.AlertDialog
 import androidx.viewpager2.widget.ViewPager2
 import androidx.recyclerview.widget.RecyclerView
 import android.widget.ImageView
+import android.content.Intent
+import android.net.Uri
+import android.graphics.Paint
+
 
 class MyDialogFragment : DialogFragment() {
 
@@ -22,6 +26,7 @@ class MyDialogFragment : DialogFragment() {
             args.putString("marker_name", markerData.name)
             args.putString("marker_addr", markerData.address)
             args.putString("marker_des", markerData.direction)
+            args.putString("marker_phone", markerData.phone)
             fragment.arguments = args
             return fragment
         }
@@ -31,6 +36,8 @@ class MyDialogFragment : DialogFragment() {
     private var markerName: String = ""
     private var markerAddr: String = ""
     private var markerDes: String = ""
+    private var phone: String = ""
+
     private lateinit var viewPager: ViewPager2
     private val imageList = mutableListOf<String>()
 
@@ -44,6 +51,7 @@ class MyDialogFragment : DialogFragment() {
             markerName = it.getString("marker_name", "")
             markerAddr = it.getString("marker_addr", "")
             markerDes = it.getString("marker_des", "")
+            phone = it.getString("marker_phone", "")
         }
 
         var index = 1
@@ -67,6 +75,23 @@ class MyDialogFragment : DialogFragment() {
         val TextView: TextView = view.findViewById(R.id.TextView)
         TextView.text = markerDes
 
+        // Phone Number setup
+        val phoneNumberText: TextView = view.findViewById(R.id.phoneNumber)
+        if (phone.isNotEmpty()) {
+            phoneNumberText.text = phone
+            // Add underline
+            phoneNumberText.paintFlags = phoneNumberText.paintFlags or Paint.UNDERLINE_TEXT_FLAG
+            // Set text color to gray
+            phoneNumberText.setTextColor(resources.getColor(android.R.color.darker_gray, null))
+
+            phoneNumberText.setOnClickListener {
+                dialPhoneNumber(phone)
+            }
+        } else {
+            phoneNumberText.text = "No phone number available"
+            phoneNumberText.setTextColor(resources.getColor(android.R.color.darker_gray, null))
+        }
+
         // ViewPager2 설정
         viewPager = view.findViewById(R.id.viewPager)
         val adapter = ImagePagerAdapter(imageList)
@@ -78,7 +103,16 @@ class MyDialogFragment : DialogFragment() {
             dismiss()
         }
 
+
+
         return builder.create()
+    }
+
+    private fun dialPhoneNumber(phoneNumber: String) {
+        val intent = Intent(Intent.ACTION_DIAL).apply {
+            data = Uri.parse("tel:$phoneNumber")
+        }
+        startActivity(intent)
     }
 
     override fun onStart() {

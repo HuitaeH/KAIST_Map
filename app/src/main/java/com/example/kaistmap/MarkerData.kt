@@ -8,4 +8,5 @@ data class MarkerData(
     val address: String,
     val menu: String,
     val direction: String,
+    val phone: String
 )
