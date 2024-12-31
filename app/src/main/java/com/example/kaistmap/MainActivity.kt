@@ -45,6 +45,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         golistbutton.setOnClickListener {
             val intent = Intent(this, FilterActivity::class.java)
             startActivity(intent)
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
             true
         }
         val buttonShowRoulette: ImageButton = findViewById(R.id.buttonShowRoulette)

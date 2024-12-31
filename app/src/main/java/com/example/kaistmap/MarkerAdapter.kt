@@ -46,6 +46,15 @@ class MarkerAdapter(private val markerList: List<MarkerData>) : RecyclerView.Ada
         val imageName = "f_${currentMarker.id}_1" // 여기에서 "1" 부분은 적절하게 조정 가능
         val resId = holder.itemView.context.resources.getIdentifier(imageName, "drawable", holder.itemView.context.packageName)
 
+        val layoutParams = holder.itemView.layoutParams as ViewGroup.MarginLayoutParams
+        if (position == markerList.size - 1) {
+            // 마지막 아이템일 경우 아래 여백 추가
+            layoutParams.bottomMargin = 300 // 원하는 px 단위로 설정
+        } else {
+            // 다른 아이템들은 여백 제거
+            layoutParams.bottomMargin = 0
+        }
+
         // 이미지 설정
         if (resId != 0) {
             holder.foodimgView.setImageResource(resId)

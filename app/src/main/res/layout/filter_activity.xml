@@ -36,6 +36,12 @@
         android:gravity="center"
         android:textStyle="bold"/>
     <!-- 버튼과 체크박스가 가로로 나란히 배치 -->
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true"
+        android:scrollbars="none">
+
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
@@ -45,53 +51,97 @@
         android:paddingTop="8dp"
         android:paddingBottom="8dp">
 
-        <!-- 체크박스들 가로로 배치 -->
+        <CheckBox
+            android:id="@+id/allCheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:button="@null"
+            android:checked="true"
+            android:background="@drawable/rounded_checkbox"
+            android:padding="8dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:text="전체"
+            android:textColor="#000000"
+            android:gravity="center" />
+
         <CheckBox
             android:id="@+id/checkBoxKorean"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:buttonTint="@android:color/darker_gray"
-            android:checked="true"
-            android:text="한식" />
+            android:layout_marginStart="15dp"
+            android:button="@null"
+            android:background="@drawable/rounded_checkbox"
+            android:padding="8dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:text="한식"
+            android:textColor="#000000"
+            android:gravity="center" />
+
 
         <CheckBox
             android:id="@+id/checkBoxChinese"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:buttonTint="@android:color/darker_gray"
-            android:checked="true"
-            android:text="중식" />
+            android:layout_marginStart="15dp"
+            android:button="@null"
+            android:background="@drawable/rounded_checkbox"
+            android:padding="8dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:text="중식"
+            android:textColor="#000000"
+            android:gravity="center" />
+
 
         <CheckBox
             android:id="@+id/checkBoxJapanese"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:buttonTint="@android:color/darker_gray"
-            android:checked="true"
-            android:text="일식" />
+            android:layout_marginStart="15dp"
+            android:button="@null"
+            android:background="@drawable/rounded_checkbox"
+            android:padding="8dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:text="일식"
+            android:textColor="#000000"
+            android:gravity="center" />
 
         <CheckBox
             android:id="@+id/checkBoxWestern"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:buttonTint="@android:color/darker_gray"
-            android:checked="true"
-            android:text="양식" />
+            android:layout_marginStart="15dp"
+            android:button="@null"
+            android:background="@drawable/rounded_checkbox"
+            android:padding="8dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:text="양식"
+            android:textColor="#000000"
+            android:gravity="center" />
+
 
         <CheckBox
             android:id="@+id/checkBoxOther"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:buttonTint="@android:color/darker_gray"
-            android:checked="true"
-            android:text="기타" />
-    </LinearLayout>
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="20dp"
+            android:button="@null"
+            android:background="@drawable/rounded_checkbox"
+            android:padding="8dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:text="기타"
+            android:textColor="#000000"
+            android:gravity="center" />
 
+    </LinearLayout>
+    </HorizontalScrollView>
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -118,6 +168,7 @@
                 android:textColor="@android:color/darker_gray"
                 android:gravity="center"
                 android:visibility="gone"
+                android:layout_marginBottom="100dp"
                 android:layout_gravity="center" />
         </FrameLayout>
 
