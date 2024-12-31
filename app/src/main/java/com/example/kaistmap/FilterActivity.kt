@@ -86,6 +86,7 @@ class FilterActivity : AppCompatActivity() {
         val backButton: ImageButton = findViewById(R.id.back_button)
         backButton.setOnClickListener {
             finish()
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
         }
         // Roulette creating code
         val buttonShowRoulette: ImageButton = findViewById(R.id.buttonShowRoulette)
