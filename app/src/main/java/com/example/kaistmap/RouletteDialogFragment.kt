@@ -18,12 +18,14 @@ import android.text.TextWatcher
 import android.text.Editable
 import android.widget.TextView // Import TextView
 import android.graphics.Color // Import Color for setting text color
+import android.widget.GridLayout
+
+
 
 
 class SpinnerWheelFragment : DialogFragment() {
     private val sectorLabels = mutableListOf<String>()
     private var currentRotation = 0f // Track the cumulative rotation
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,96 +40,122 @@ class SpinnerWheelFragment : DialogFragment() {
             dismiss()
         }
 
-        val spinnerWheel = view.findViewById<SpinnerWheelView>(R.id.spinnerWheel)
-        val sectorInput = view.findViewById<EditText>(R.id.sectorInput)
-        val confirmButton = view.findViewById<Button>(R.id.confirmButton)
-        val startButton = view.findViewById<Button>(R.id.startButton)
-        val sectorsLayout: LinearLayout = view.findViewById(R.id.sectorsLayout) // Layout to hold dynamic EditTexts
-        startButton.isEnabled = false
+        //----------------------------------------------------------------------------------
+        // controlling the number of sectors
+        val sectorCountTextView: TextView = view.findViewById(R.id.sectorCountTextView)
+        val minusButton: ImageButton = view.findViewById(R.id.minusButton)
+        val plusButton: ImageButton = view.findViewById(R.id.plusButton)
 
+        // Sector count and layout updates
+        var sectorCount = 2
+        sectorCountTextView.text = sectorCount.toString()
 
-        // Inside the confirmButton's click listener, after setting sectors
-        confirmButton.setOnClickListener {
-            val sectors = sectorInput.text.toString().toIntOrNull()
-            if (sectors != null && sectors in 2..6) {
-                // Set the number of sectors and clear previous labels
-                spinnerWheel.setSectors(sectors)
+        // Function to dynamically update the spinner and labels
+        fun updateSectors() {
+            val spinnerWheel = view.findViewById<SpinnerWheelView>(R.id.spinnerWheel)  // Access spinnerWheel here
 
-                // Clear existing dynamic EditText fields
-                sectorsLayout.removeAllViews()
+            spinnerWheel.setSectors(sectorCount)  // Update the number of sectors
+            spinnerWheel.setSectorLabels(sectorLabels)  // Update the labels too
 
-                // Add dynamic EditText fields based on the number of sectors
-                sectorLabels.clear() // Clear previous labels
-                for (i in 0 until sectors) {
-                    // Create a LinearLayout to contain the TextView and EditText together
-                    val sectorLayout = LinearLayout(context).apply {
-                        orientation = LinearLayout.HORIZONTAL // Set orientation to horizontal
-                        setPadding(8, 8, 8, 8) // Add padding around the layout
-                    }
+            // Create a GridLayout for 2-column layout
+            val sectorLayout = GridLayout(context).apply {
+                rowCount = sectorCount / 2 + sectorCount % 2 // Rows needed for odd counts
+                columnCount = 4
+                layoutParams = ViewGroup.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+                )
+            }
+            // Clear existing dynamic views
+            sectorLayout.removeAllViews()
+            sectorLabels.clear()
 
-                    // Create a TextView for the sector number (e.g., "Sector 1")
-                    val sectorTextView = TextView(context).apply {
-                        text = "${i + 1}. " // Set the text to indicate the sector number
-                        textSize = 16f // Adjust text size
-                        setPadding(8, 8, 8, 8) // Padding for spacing
-                        setTextColor(Color.BLACK) // Correct way to set text color
-                    }
+            // Add TextViews and EditTexts dynamically in 2-column grid
+            for (i in 0 until sectorCount) {
+                // TextView
+                val sectorTextView = TextView(context).apply {
+                    text = "${i + 1}. "
+                    textSize = 14f
+                    setPadding(8, 8, 8, 8)
+                    setTextColor(Color.BLACK)
+                }
+                // EditText
+                val sectorEditText = EditText(context).apply {
+                    hint = "${i + 1}번째 메뉴"
+                    inputType = InputType.TYPE_CLASS_TEXT
+                    setPadding(8, 8, 8, 8)
+                }
 
-                    val editText = EditText(context).apply {
-                        hint = "Label for sector ${i + 1}"
-                        inputType = InputType.TYPE_CLASS_TEXT
-                        setPadding(8, 8, 8, 8)
-                    }
+                // Set layout params for 2-column grid
+                val rowIndex = i / 2
+                val columnIndex = if (i % 2 == 0) 0 else 2
+                val editTextColumnIndex = if (i % 2 == 0) 1 else 3
 
+                sectorTextView.layoutParams = GridLayout.LayoutParams().apply {
+                    rowSpec = GridLayout.spec(rowIndex)
+                    columnSpec = GridLayout.spec(columnIndex)
+                }
+                sectorEditText.layoutParams = GridLayout.LayoutParams().apply {
+                    rowSpec = GridLayout.spec(rowIndex)
+                    columnSpec = GridLayout.spec(editTextColumnIndex)
+                }
 
+                // Add TextView and EditText to the layout
+                sectorLayout.addView(sectorTextView)
+                sectorLayout.addView(sectorEditText)
 
-                    // Add the TextView and EditText to the LinearLayout
-                    sectorLayout.addView(sectorTextView)
-                    sectorLayout.addView(editText)
-
-                    // Add the LinearLayout (which contains the TextView and EditText) to sectorsLayout
-                    sectorsLayout.addView(sectorLayout)
-
-                    // Add a TextWatcher to update sectorLabels when text is changed
-                    editText.addTextChangedListener(object : TextWatcher {
-                        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-                        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-                        override fun afterTextChanged(s: Editable?) {
-                            if (s != null) {
-                                if (sectorLabels.size <= i) {
-                                    sectorLabels.add(s.toString())
-                                } else {
-                                    sectorLabels[i] = s.toString()
-                                }
+                // Handle dynamic updates to sector labels
+                sectorEditText.addTextChangedListener(object : TextWatcher {
+                    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+                    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+                    override fun afterTextChanged(s: Editable?) {
+                        if (s != null) {
+                            if (sectorLabels.size <= i) {
+                                sectorLabels.add(s.toString())
+                            } else {
+                                sectorLabels[i] = s.toString()
                             }
                         }
-                    })
-                }
-                startButton.isEnabled = true // Enable the Start button
+                    }
+                })
+            }
+
+            // Add GridLayout to the parent layout
+            val sectorsLayout: LinearLayout = view.findViewById(R.id.sectorsLayout) // Layout to hold dynamic EditTexts
+            sectorsLayout.addView(sectorLayout)
+        }
+
+        // Decrease button logic
+        minusButton.setOnClickListener {
+            if (sectorCount > 2) { // Minimum sectors = 2
+                minusButton.isEnabled = true
+                sectorCount--
+                sectorCountTextView.text = sectorCount.toString()
+                updateSectors()
             } else {
-                Toast.makeText(context, "2에서 6사이의 숫자를 넣어주세요", Toast.LENGTH_SHORT).show()
+                minusButton.isEnabled = false
             }
         }
 
-
-        // Start Button Logic
-        startButton.setOnClickListener {
-            val sectors = sectorInput.text.toString().toIntOrNull()
-
-            if ((sectors == null || sectors !in 2..6) || startButton.isEnabled != true) {
-                // Show the toast if the sectors input is invalid or not within the range
-                Toast.makeText(context, "고민하고 있는 메뉴의 개수를 입력해주세요", Toast.LENGTH_SHORT).show()
+        // Increase button logic
+        plusButton.setOnClickListener {
+            if (sectorCount < 6) { // Maximum sectors = 6
+                plusButton.isEnabled = true
+                sectorCount++
+                sectorCountTextView.text = sectorCount.toString()
+                updateSectors()
             } else {
-                // Proceed with spinning the wheel if the input is valid
-                spinnerWheel.setSectors(sectors)
-                // Pass the labels to the spinner wheel
-                spinnerWheel.setSectorLabels(sectorLabels)
-                spinWheel(spinnerWheel, sectors)
+                plusButton.isEnabled = false
             }
         }
+
+        // Initialize with default sector count
+        updateSectors()
 
         return view
     }
+
+
 
 
     private fun spinWheel(view: View, sectors: Int) {
