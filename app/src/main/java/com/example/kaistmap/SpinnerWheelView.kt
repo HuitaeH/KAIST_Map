@@ -7,6 +7,8 @@ import android.graphics.Paint
 import android.graphics.Path
 import android.util.AttributeSet
 import android.view.View
+import android.view.MotionEvent
+
 
 
 class SpinnerWheelView @JvmOverloads constructor(
@@ -15,7 +17,7 @@ class SpinnerWheelView @JvmOverloads constructor(
 
     private val outlinePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.BLACK         // Set the color to black for the outline
-        strokeWidth = 3f            // Set a thin line width for the outline
+        strokeWidth = 10f            // Set a thin line width for the outline
         style = Paint.Style.STROKE  // Use STROKE style to only draw the outline (not filled)
     }
 
@@ -36,6 +38,7 @@ class SpinnerWheelView @JvmOverloads constructor(
         Color.parseColor("#BAE1FF"), // Pastel Blue
         Color.parseColor("#D7BAFF")  // Pastel Purple
     )
+    var onCenterCircleClick: (() -> Unit)? = null // Callback for center circle click
 
     fun setSectors(sectors: Int) {
         numSectors = sectors
@@ -58,12 +61,10 @@ class SpinnerWheelView @JvmOverloads constructor(
         canvas.save()
         canvas.rotate(-90f, centerX, centerY)
 
-        val textRadius = radius * 0.8f // Position text closer to the center
         val anglePerSector = 360f / numSectors
 
         for (i in 0 until numSectors) {
             val startAngle = i * anglePerSector // Store the start angle
-            val sectorMidAngle = startAngle + anglePerSector / 2
 
             // Draw sector
             paint.color = colors[i % colors.size]
@@ -87,13 +88,21 @@ class SpinnerWheelView @JvmOverloads constructor(
                 drawLabel(canvas, sectorLabels[i], startAngle, anglePerSector, radius, centerX, centerY)
             }
         }
-
         //circle at the center of the wheel
-        paint.color = Color.BLACK
-        canvas.drawCircle(centerX, centerY, radius / 10, paint) // Center dot
+        paint.color = Color.WHITE
+        canvas.drawCircle(centerX, centerY, radius / 5, paint) // Center dot
+        canvas.drawCircle(centerX, centerY, radius / 5, outlinePaint) // Outline around center circle
 
         // Draw the outer circle outline
         canvas.drawCircle(centerX, centerY, radius, outlinePaint)
+
+        // Draw the "GO!" text inside the center circle (fixed position)
+         textPaint.color = Color.BLACK // Color for the "GO!" text
+        textPaint.textSize = 80f // Make the text larger
+        canvas.drawText("GO!", centerX, centerY + textPaint.textSize / 3, textPaint)
+
+
+
 
 
     }
@@ -126,4 +135,27 @@ class SpinnerWheelView @JvmOverloads constructor(
         canvas.drawText(label, labelX, labelY, textPaint)
         canvas.restore()
     }
+
+
+
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        val centerX = width / 2f
+        val centerY = height / 2f
+        val radius = width / 2f / 5 // Radius of the center circle
+
+        val distance = Math.sqrt(
+            Math.pow((event.x - centerX).toDouble(), 2.0) + Math.pow(
+                (event.y - centerY).toDouble(),
+                2.0
+            )
+        )
+
+        // Check if the touch is inside the center circle
+        if (distance <= radius) {
+            onCenterCircleClick?.invoke() // Trigger the callback to start spinning
+            return true
+        }
+        return super.onTouchEvent(event)
+    }
+
 }
