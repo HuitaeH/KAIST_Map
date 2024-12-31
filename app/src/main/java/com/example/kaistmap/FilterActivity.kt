@@ -18,6 +18,7 @@ class FilterActivity : AppCompatActivity() {
     private lateinit var markerAdapter: MarkerAdapter
     private lateinit var markerList: List<MarkerData>
 
+    private lateinit var allFoodCheckbox: CheckBox
     private lateinit var koreanFoodCheckbox: CheckBox
     private lateinit var japaneseFoodCheckbox: CheckBox
     private lateinit var chineseFoodCheckbox: CheckBox
@@ -35,6 +36,7 @@ class FilterActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
 
         // 체크박스 초기화
+        allFoodCheckbox = findViewById(R.id.allCheckBox)
         koreanFoodCheckbox = findViewById(R.id.checkBoxKorean)
         japaneseFoodCheckbox = findViewById(R.id.checkBoxJapanese)
         chineseFoodCheckbox = findViewById(R.id.checkBoxChinese)
@@ -48,11 +50,34 @@ class FilterActivity : AppCompatActivity() {
         markerList = loadMarkerData()
 
         // 체크박스 클릭 리스너 설정
-        koreanFoodCheckbox.setOnCheckedChangeListener { _, _ -> filterMarkers() }
-        japaneseFoodCheckbox.setOnCheckedChangeListener { _, _ -> filterMarkers() }
-        chineseFoodCheckbox.setOnCheckedChangeListener { _, _ -> filterMarkers() }
-        westernFoodCheckbox.setOnCheckedChangeListener { _, _ -> filterMarkers() }
-        otherFoodCheckbox.setOnCheckedChangeListener { _, _ -> filterMarkers() }
+        allFoodCheckbox.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                // "All" 체크박스가 선택되면 다른 체크박스 해제
+                koreanFoodCheckbox.isChecked = false
+                japaneseFoodCheckbox.isChecked = false
+                chineseFoodCheckbox.isChecked = false
+                westernFoodCheckbox.isChecked = false
+                otherFoodCheckbox.isChecked = false
+            }
+            filterMarkers()
+        }
+        val otherCheckboxes = listOf(
+            koreanFoodCheckbox,
+            japaneseFoodCheckbox,
+            chineseFoodCheckbox,
+            westernFoodCheckbox,
+            otherFoodCheckbox
+        )
+
+        otherCheckboxes.forEach { checkbox ->
+            checkbox.setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked) {
+                    // 다른 체크박스 중 하나라도 선택되면 "All" 체크박스 해제
+                    allFoodCheckbox.isChecked = false
+                }
+                filterMarkers()
+            }
+        }
 
         // 필터링 버튼 클릭 이벤트
         filterMarkers()
@@ -90,13 +115,14 @@ class FilterActivity : AppCompatActivity() {
         // 필터링된 마커 리스트
         val filteredList = markerList.filter { marker ->
             // 체크박스 상태에 따라 필터링
+            val allFood = allFoodCheckbox.isChecked
             val isKoreanFood = koreanFoodCheckbox.isChecked && marker.menu.contains("한식")
             val isJapaneseFood = japaneseFoodCheckbox.isChecked && marker.menu.contains("일식")
             val isChineseFood = chineseFoodCheckbox.isChecked && marker.menu.contains("중식")
             val isWesternFood = westernFoodCheckbox.isChecked && marker.menu.contains("양식")
             val isOtherFood = otherFoodCheckbox.isChecked && marker.menu.contains("기타")
 
-            isKoreanFood || isJapaneseFood || isChineseFood || isWesternFood || isOtherFood
+            allFood || isKoreanFood || isJapaneseFood || isChineseFood || isWesternFood || isOtherFood
         }
 
         // 필터링된 리스트를 어댑터에 갱신
