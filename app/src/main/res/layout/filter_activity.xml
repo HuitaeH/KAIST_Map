@@ -36,6 +36,12 @@
         android:gravity="center"
         android:textStyle="bold"/>
     <!-- 버튼과 체크박스가 가로로 나란히 배치 -->
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true"
+        android:scrollbars="none">
+
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
@@ -134,7 +140,7 @@
             android:gravity="center" />
 
     </LinearLayout>
-
+    </HorizontalScrollView>
 
     <FrameLayout
         android:layout_width="match_parent"
