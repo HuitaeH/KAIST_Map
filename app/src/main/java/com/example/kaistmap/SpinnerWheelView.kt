@@ -54,7 +54,12 @@ class SpinnerWheelView @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
-        val radius = width / 2f
+        // Adjust the size to account for the outline stroke width (10f)
+        val outlinePadding = outlinePaint.strokeWidth / 2
+        val adjustedWidth = width - outlinePadding * 2
+        val adjustedHeight = height - outlinePadding * 2
+
+        val radius = Math.min(adjustedWidth, adjustedHeight) / 2f
         val centerX = width / 2f
         val centerY = height / 2f
         // Rotate the canvas by -90 degrees (anticlockwise) around the center

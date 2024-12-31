@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.Toast
@@ -19,6 +18,9 @@ import android.text.Editable
 import android.widget.TextView // Import TextView
 import android.graphics.Color // Import Color for setting text color
 import android.widget.GridLayout
+import android.content.DialogInterface
+
+
 
 
 
@@ -26,6 +28,9 @@ import android.widget.GridLayout
 class SpinnerWheelFragment : DialogFragment() {
     private val sectorLabels = mutableListOf<String>()
     private var currentRotation = 0f // Track the cumulative rotation
+    var sectorCount = 2
+    private var animator: ValueAnimator? = null // Declare animator here
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,20 +52,20 @@ class SpinnerWheelFragment : DialogFragment() {
         val plusButton: ImageButton = view.findViewById(R.id.plusButton)
 
         // Sector count and layout updates
-        var sectorCount = 2
         sectorCountTextView.text = sectorCount.toString()
 
         // Function to dynamically update the spinner and labels
+        // Function to dynamically update the spinner and labels
         fun updateSectors() {
             val spinnerWheel = view.findViewById<SpinnerWheelView>(R.id.spinnerWheel)  // Access spinnerWheel here
-
             spinnerWheel.setSectors(sectorCount)  // Update the number of sectors
-            spinnerWheel.setSectorLabels(sectorLabels)  // Update the labels too
-            if (sectorCount==2) {
+            spinnerWheel.setSectorLabels(sectorLabels)  // Update the labels
+
+            if (sectorCount == 2) {
                 minusButton.isEnabled = false
                 minusButton.alpha = 0.5f
             }
-            if (sectorCount==6) {
+            if (sectorCount == 6) {
                 plusButton.isEnabled = false
                 plusButton.alpha = 0.5f
             }
@@ -74,9 +79,7 @@ class SpinnerWheelFragment : DialogFragment() {
                     ViewGroup.LayoutParams.WRAP_CONTENT
                 )
             }
-            // Clear existing dynamic views
-            sectorLayout.removeAllViews()
-            sectorLabels.clear()
+            sectorLayout.removeAllViews() // Don't clear sectorLabels here
 
             // Add TextViews and EditTexts dynamically in 2-column grid
             for (i in 0 until sectorCount) {
@@ -108,6 +111,20 @@ class SpinnerWheelFragment : DialogFragment() {
                     columnSpec = GridLayout.spec(editTextColumnIndex)
                 }
 
+                // Apply margin only between the second and third columns (index 1 and 2)
+                val textParams = sectorTextView.layoutParams as GridLayout.LayoutParams
+                val editTextParams = sectorEditText.layoutParams as GridLayout.LayoutParams
+
+                // Only apply margin between the second and third column
+                if (i % 2 == 0 && i + 1 < sectorCount) { // Check if it's in the first column and there is a next item in the second column
+                    // Add right margin to first column
+                    editTextParams.rightMargin = 150 // Same margin for EditText
+                }
+
+                // Set the modified layoutParams
+                sectorTextView.layoutParams = textParams
+                sectorEditText.layoutParams = editTextParams
+
                 // Add TextView and EditText to the layout
                 sectorLayout.addView(sectorTextView)
                 sectorLayout.addView(sectorEditText)
@@ -123,6 +140,9 @@ class SpinnerWheelFragment : DialogFragment() {
                             } else {
                                 sectorLabels[i] = s.toString()
                             }
+
+                            // After updating sector labels, immediately update the spinner wheel
+                            spinnerWheel.setSectorLabels(sectorLabels)
                         }
                     }
                 })
@@ -133,6 +153,7 @@ class SpinnerWheelFragment : DialogFragment() {
             sectorsLayout.removeAllViews() // Remove previous views before adding the new one
             sectorsLayout.addView(sectorLayout)
         }
+
 
         // Decrease button logic
         minusButton.setOnClickListener {
@@ -158,6 +179,14 @@ class SpinnerWheelFragment : DialogFragment() {
             }
         }
 
+        // Get the spinner wheel view
+        val spinnerWheel = view.findViewById<SpinnerWheelView>(R.id.spinnerWheel)
+
+        // Set the center circle click listener to start spinning
+        spinnerWheel.onCenterCircleClick = {
+            // Call the method to spin the wheel
+            spinWheel(view, sectorLabels.size)
+        }
 
         // Initialize with default sector count
         updateSectors()
@@ -169,8 +198,16 @@ class SpinnerWheelFragment : DialogFragment() {
 
 
     private fun spinWheel(view: View, sectors: Int) {
+        if (sectorLabels.isEmpty() || sectorLabels.size < sectorCount) {
+            Toast.makeText(requireContext(), "메뉴를 적어주세요!", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        // Access the SpinnerWheelView specifically
+        val spinnerWheel = view.findViewById<SpinnerWheelView>(R.id.spinnerWheel)
+
         // Store the current rotation before starting the animation
-        currentRotation = view.rotation
+        currentRotation = spinnerWheel.rotation
 
         // Randomly pick a sector
         val whichSector = (0 until sectors).random()
@@ -183,30 +220,30 @@ class SpinnerWheelFragment : DialogFragment() {
         val animator = ValueAnimator.ofFloat(currentRotation, finalRotation)
         animator.duration = 3000 // 3 seconds
         animator.addUpdateListener {
-            view.rotation = it.animatedValue as Float
+            spinnerWheel.rotation = it.animatedValue as Float
         }
         // Update cumulative rotation
         currentRotation = finalRotation % 360f
 
         //check if the list is filled - else just print out the message
-        if (sectorLabels.size<sectors) {
-            Toast.makeText(requireContext(), "메뉴 리스트를 채워주세요", Toast.LENGTH_SHORT).show()
-        } else {
-            animator.start()
 
-            // Post a delayed result calculation after the animation ends
-            Handler(Looper.getMainLooper()).postDelayed({
+        animator?.start()
 
-                val currentSector = (sectors-1) - (currentRotation / (360f / sectors)).toInt()
+        // Post a delayed result calculation after the animation ends
+        Handler(Looper.getMainLooper()).postDelayed({
 
+            if (isAdded) {
+                val currentSector = (sectors - 1) - (currentRotation / (360f / sectors)).toInt()
                 // Validate sectorLabels and display the result
                 val chosen = sectorLabels[currentSector]
                 Toast.makeText(requireContext(), "오늘 밥은 $chosen!", Toast.LENGTH_SHORT).show()
-            }, 3000) // Delay matches the animation duration
-        }
-
-
-
+            }
+        }, 3000) // Delay matches the animation duration
     }
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
 
+        // Cancel the animation if it's still running
+        animator?.cancel()
+    }
 }
