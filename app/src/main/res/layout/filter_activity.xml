@@ -130,6 +130,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
+            android:layout_marginEnd="20dp"
             android:button="@null"
             android:background="@drawable/rounded_checkbox"
             android:padding="8dp"
