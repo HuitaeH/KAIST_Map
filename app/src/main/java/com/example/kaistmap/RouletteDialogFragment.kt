@@ -56,6 +56,14 @@ class SpinnerWheelFragment : DialogFragment() {
 
             spinnerWheel.setSectors(sectorCount)  // Update the number of sectors
             spinnerWheel.setSectorLabels(sectorLabels)  // Update the labels too
+            if (sectorCount==2) {
+                minusButton.isEnabled = false
+                minusButton.alpha = 0.5f
+            }
+            if (sectorCount==6) {
+                plusButton.isEnabled = false
+                plusButton.alpha = 0.5f
+            }
 
             // Create a GridLayout for 2-column layout
             val sectorLayout = GridLayout(context).apply {
@@ -122,32 +130,34 @@ class SpinnerWheelFragment : DialogFragment() {
 
             // Add GridLayout to the parent layout
             val sectorsLayout: LinearLayout = view.findViewById(R.id.sectorsLayout) // Layout to hold dynamic EditTexts
+            sectorsLayout.removeAllViews() // Remove previous views before adding the new one
             sectorsLayout.addView(sectorLayout)
         }
 
         // Decrease button logic
         minusButton.setOnClickListener {
             if (sectorCount > 2) { // Minimum sectors = 2
-                minusButton.isEnabled = true
                 sectorCount--
                 sectorCountTextView.text = sectorCount.toString()
+                plusButton.isEnabled = true // Ensure the plus button is enabled
+                plusButton.alpha = 1f
+                // Update sectors after decrease
                 updateSectors()
-            } else {
-                minusButton.isEnabled = false
             }
         }
 
-        // Increase button logic
+// Increase button logic
         plusButton.setOnClickListener {
             if (sectorCount < 6) { // Maximum sectors = 6
-                plusButton.isEnabled = true
                 sectorCount++
                 sectorCountTextView.text = sectorCount.toString()
+                minusButton.isEnabled = true // Ensure the minus button is enabled
+                minusButton.alpha = 1f
+                // Update sectors after increase
                 updateSectors()
-            } else {
-                plusButton.isEnabled = false
             }
         }
+
 
         // Initialize with default sector count
         updateSectors()

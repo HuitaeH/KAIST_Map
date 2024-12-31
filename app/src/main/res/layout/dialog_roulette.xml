@@ -27,21 +27,36 @@
         android:gravity="center"
         android:paddingBottom="16dp">
 
+        <ImageButton
+            android:id="@+id/minusButton"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_minus"
+            android:background="@android:color/transparent"
+            />
+
         <!-- Sector Input -->
-        <EditText
-            android:id="@+id/sectorInput"
+        <TextView
+            android:id="@+id/sectorCountTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="음식 개수(2-6개)"
-            android:inputType="number"/>
+            android:text="2"
+            android:padding="8dp"
+            android:textSize="30sp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+        />
 
         <!-- Confirm Button -->
-        <Button
-            android:id="@+id/confirmButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="입력" />
+        <ImageButton
+            android:id="@+id/plusButton"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_plus"
+            android:background="@android:color/transparent"
+            />
     </LinearLayout>
 
     <LinearLayout
@@ -73,18 +88,18 @@
         android:layout_height="300dp"
         />
 
-    <!--Spin button-->
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:padding="16dp">
-        <Button
-            android:id="@+id/startButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="돌리기"
-            />
-    </LinearLayout>
+<!--    &lt;!&ndash;Spin button&ndash;&gt;-->
+<!--    <LinearLayout-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="horizontal"-->
+<!--        android:gravity="center"-->
+<!--        android:padding="16dp">-->
+<!--        <Button-->
+<!--            android:id="@+id/startButton"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="돌리기"-->
+<!--            />-->
+<!--    </LinearLayout>-->
 </LinearLayout>
