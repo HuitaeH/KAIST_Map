@@ -33,8 +33,6 @@
 
 ## Tab 0: 맛집 지도 화면
 
-![Screen_Recording_20250101_161340-ezgif.com-video-to-gif-converter.gif](https://prod-files-secure.s3.us-west-2.amazonaws.com/f6cb388f-3934-47d6-9928-26d2e10eb0fc/5ac6138b-0e1b-4fe6-8242-2857e62fae76/Screen_Recording_20250101_161340-ezgif.com-video-to-gif-converter.gif)
-
 - 스플래시 화면 전환 이후 나오는 시작 화면입니다.
     - 하단 바의 가장 왼쪽 버튼을 눌러 이동할 수도 있습니다.
 - 네이버 지도 API (`NaverMap`)를 가져와 실제 카이스트 주변 지도를 보여줍니다.
@@ -59,8 +57,6 @@
 `RecyclerView`를 통해 보여줍니다.
 
 - 이름 옆에 있는 ‘정보’ 아이콘을 눌러 식당 상세 페이지로 이동할 수 있습니다.
-
-![ic_info.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/f6cb388f-3934-47d6-9928-26d2e10eb0fc/22cf8948-c4a4-4b34-a2ee-b31e734958e1/ic_info.png)
 
 - 상단에는 카테고리를 선택 또는 해제할 수 있는 버튼이 있어 원하는 카테고리의 식당만 모아볼 수 있습니다.
     - 만약 카테고리에 해당하는 식당이 없다면 *“해당되는 식당이 없습니다”* 라는 메시지를 보여줍니다
