@@ -13,7 +13,7 @@
 
 - 언어: Kotlin
 - IDE: Android Studio
-
+![Screen_Recording_20250101_161032_OneUIHome-ezgif.com-video-to-gif-converter.gif](https://prod-files-secure.s3.us-west-2.amazonaws.com/f6cb388f-3934-47d6-9928-26d2e10eb0fc/1044a1e9-df28-4ac1-98b2-7f42bc6feaf3/Screen_Recording_20250101_161032_OneUIHome-ezgif.com-video-to-gif-converter.gif)
 ---
 
 # Team
