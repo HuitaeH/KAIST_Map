@@ -97,14 +97,10 @@ class SpinnerWheelView @JvmOverloads constructor(
         paint.color = Color.WHITE
         canvas.drawCircle(centerX, centerY, radius / 5, paint) // Center dot
         canvas.drawCircle(centerX, centerY, radius / 5, outlinePaint) // Outline around center circle
-
         // Draw the outer circle outline
         canvas.drawCircle(centerX, centerY, radius, outlinePaint)
 
-        // Draw the "GO!" text inside the center circle (fixed position)
-         textPaint.color = Color.BLACK // Color for the "GO!" text
-        textPaint.textSize = 80f // Make the text larger
-        canvas.drawText("GO!", centerX, centerY + textPaint.textSize / 3, textPaint)
+
 
 
 
